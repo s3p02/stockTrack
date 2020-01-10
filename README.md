@@ -9,5 +9,11 @@ INFLUXDB CLI:
 
 ```docker exec -it CONTAINER_ID /bin/bash```
 
+```influx```
+
+```create database stockprices```
+
+```CREATE RETENTION POLICY "7DayPolicyStockPrices" ON "stockprices" DURATION 7d REPLICATION 1```
+
 Docker Grafana:
 ```docker run -d --name=grafana -p 3000:3000 grafana/grafana```
