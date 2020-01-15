@@ -10,16 +10,15 @@ def stock_tracker(request):
     logging_client = logging.Client()
     log_name = 'my-log'
     logger = logging_client.logger(log_name)
-    #logger.log_text(text)
     def get_price(stock_name, lc=logging_client):
-        log_name = 'my-get_price'
+        log_name_if = 'my-get_price'
         logger = lc.logger(log_name)
         r = si.get_quote_table(stock_name, dict_result=False)
-        message1 = log_name+" stock_name {}".format(stock_name)
+        message1 = log_name_if+" stock_name {}".format(stock_name)
         logger.log_text(message1)
         print(message1)
         stockPrice = r.loc[15]['value']
-        message2 = log_name+" stockPrice {}".format(stockPrice)
+        message2 = log_name_if+" stockPrice {}".format(stockPrice)
         logger.log_text(message2)
         print(message2)
         return stockPrice
