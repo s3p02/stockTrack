@@ -10,6 +10,7 @@ def stock_tracker(request):
     logging_client = logging.Client()
     log_name = 'my-log'
     logger = logging_client.logger(log_name)
+
     def get_price(stock_name, lc=logging_client):
         log_name_if = 'my-get_price'
         logger = lc.logger(log_name)
