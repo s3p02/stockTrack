@@ -2,38 +2,22 @@ import logging
 from yahoo_fin import stock_info as si
 import time
 import sys
-from influxdb import InfluxDBClient
 from datetime import datetime
+from flask import escape
 
 
-client = InfluxDBClient(host='localhost', port=8086)
-
-NASDAQcode = str(sys.argv[1])
-
-while True:
-    data = []
-    start_time = time.perf_counter()
-    r = si.get_quote_table(NASDAQcode, dict_result = False)
-    writeTime = datetime.utcnow()
-    latency = time.perf_counter() - start_time
-    stockPrice = r.loc[15]['value']
-    print("--- %s ---" % (NASDAQcode))
-    print("--- Latency %s seconds ---" % (latency))
-    print(r)
-    print(stockPrice)
-    print("--- %s WriteTime ---" % (writeTime))
-    data = [
-        {
-            "measurement": NASDAQcode,
-            "tags": {
-                "NASDAQcode": NASDAQcode
-            },
-            "time": writeTime,
-            "fields": {
-                "latency": latency,
-                "stockPrice": stockPrice
-            }
-        }
-    ]
-    client.write_points(data, database='stockprices', time_precision='ms')
-    data.clear()
+def stock_tracker(request):
+    def get_price(stock_name):
+        r = si.get_quote_table(stock_name, dict_result=False)
+        stockPrice = r.loc[15]['value']
+        return stockPrice
+    request_json = request.get_json(silent=True)
+    request_args = request.args
+    if request_json and 'stock_name' in request_json:
+        stock_name = request_json['stock_name']
+    elif request_args and 'stock_name' in request_args:
+        stock_name = request_args['stock_name']
+    else:
+        stock_name = 'chtr'
+    stock_price = get_price(stock_name)
+    return 'Hello {0} price is {1}!'.format(escape(stock_name), stock_price)
