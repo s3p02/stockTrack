@@ -1,4 +1,10 @@
 version: '3'
+
 services:
-  tracker:
+  st:
     build: .
+    command: python /src/tracker.py chtr
+    volumes:
+      - .:/src
+    ports:
+      - "8086:8086"

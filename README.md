@@ -2,7 +2,7 @@
 
 Docker InfluxDb:
 
-```docker run -p 8086:8086       -e INFLUXDB_DB=defaultdb       -e INFLUXDB_ADMIN_USER=admin       -e INFLUXDB_ADMIN_PASSWORD=adminpass       -e INFLUXDB_USER=user       -e INFLUXDB_USER_PASSWORD=userpass       -v influxdb:/var/lib/influxdb       influxdb:latest```
+```docker run -d -p 8086:8086       -e INFLUXDB_DB=defaultdb       -e INFLUXDB_ADMIN_USER=admin       -e INFLUXDB_ADMIN_PASSWORD=adminpass       -e INFLUXDB_USER=user       -e INFLUXDB_USER_PASSWORD=userpass       -v influxdb:/var/lib/influxdb       influxdb:latest```
 
 INFLUXDB CLI:
 ```docker ps```

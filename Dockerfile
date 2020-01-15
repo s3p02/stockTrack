@@ -1,5 +1,8 @@
 FROM python:3
-ADD . /code
+RUN mkdir /src
 WORKDIR /code
-RUN pip install -r requirements.txt
-CMD ["python", "tracker/tracker.py", "chtr"]
+COPY tracker.py /src/tracker.py
+COPY requirements.txt /src/requirements.txt
+RUN pip install -r /src/requirements.txt
+EXPOSE 8086
+COPY . /src/
