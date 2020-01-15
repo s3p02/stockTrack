@@ -52,4 +52,7 @@ def stock_tracker(request):
     msgf = "stock_tracker stock_name stock_price {}".format(stock_price)
     logger.log_text(msgf)
     print(msgf)
-    return 'Hello {0} price is {1}!'.format(escape(stock_name), stock_price)
+    fr = 'Hello {0} price is {1}!'.format(escape(stock_name), stock_price)
+    """fr is the final response returned by stock_tracker function.
+    """
+    return fr
