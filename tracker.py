@@ -20,7 +20,10 @@ def stock_tracker(request):
         """
         log_name_if = 'get_price'
         logger = lc.logger(log_name)
+        start = time.time()
         r = si.get_quote_table(stock_name, dict_result=False)
+        end = time.time()
+        latency = end - start
         message1 = log_name_if+" stock_name {}".format(stock_name)
         logger.log_text(message1)
         print(message1)
@@ -28,7 +31,7 @@ def stock_tracker(request):
         message2 = log_name_if+" stockPrice {}".format(stockPrice)
         logger.log_text(message2)
         print(message2)
-        return stockPrice
+        return (stockPrice,latency)
     request_json = request.get_json(silent=True)
     request_args = request.args
     """request_json & request_args are parsers for the requests taht come in
@@ -47,12 +50,14 @@ def stock_tracker(request):
         stock_name = 'dis'
     """This is a conditional to parse the request and obtain the stock_name. By default the stock_name is dis
     """
-    stock_price = get_price(stock_name)
+    stock_price_latency = get_price(stock_name)
+    stock_price = stock_price_latency[0]
+    stock_latency = stock_price_latency[1]
     """From the obtained stock_name, the price is retrived using the get_price function"""
     msgf = "stock_tracker stock_name stock_price {}".format(stock_price)
     logger.log_text(msgf)
     print(msgf)
-    fr = 'Hello {0} price is {1}!'.format(escape(stock_name), stock_price)
+    fr = 'Hello {0} price is {1}! It took {2} seconds.'.format(escape(stock_name), stock_price, stock_latency)
     """fr is the final response returned by stock_tracker function.
     """
     return fr
