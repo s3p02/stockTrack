@@ -9,7 +9,7 @@ html5lib==1.0.1
 idna==2.8
 influxdb==5.2.3
 lxml==4.4.2
-numpy==1.18.1
+numpy==1.22.0
 pandas==0.25.3
 parse==1.14.0
 pyee==6.0.0
